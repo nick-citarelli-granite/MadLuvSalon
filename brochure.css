@@ -1,540 +1,473 @@
 :root {
-        --black: #050505;
-        --ink: #171114;
-        --muted: #695d63;
-        --rose: #e7cfcd;
-        --blush: #f5dfdd;
-        --cream: #fffaf5;
-        --stone: #f4eeee;
-        --mauve: #d8b8b9;
-        --slate: #787784;
-        --line: rgba(5, 5, 5, 0.13);
-        --shadow: 0 18px 50px rgba(5, 5, 5, 0.16);
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html {
-        min-width: 320px;
-        scroll-behavior: smooth;
-      }
-
-      body {
-        margin: 0;
-        color: var(--ink);
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background:
-          linear-gradient(rgba(5, 5, 5, 0.035) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(5, 5, 5, 0.035) 1px, transparent 1px),
-          radial-gradient(circle at 18% 8%, rgba(216, 184, 185, 0.55), transparent 28rem),
-          radial-gradient(circle at 84% 18%, rgba(120, 119, 132, 0.18), transparent 32rem),
-          linear-gradient(135deg, #f8eeee 0%, var(--cream) 54%, #f2e4e2 100%);
-        background-size: 34px 34px, 34px 34px, auto, auto, auto;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .page {
-        width: min(100%, 1180px);
-        margin: 0 auto;
-        padding: 10px;
-      }
-
-      .hero,
-      .trio,
-      .facts,
-      .map-section,
-      .booking {
-        border: 1px solid var(--line);
-        border-radius: 26px;
-        background: rgba(255, 250, 245, 0.9);
-        box-shadow: var(--shadow);
-      }
-
-      .hero {
-        min-height: calc(100vh - 20px);
-        display: grid;
-        align-items: stretch;
-        gap: 10px;
-        overflow: hidden;
-        padding: 10px;
-      }
-
-      .hero-copy {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: clamp(22px, 6vw, 54px);
-      }
-
-      .eyebrow {
-        width: fit-content;
-        border-radius: 999px;
-        padding: 8px 12px;
-        color: white;
-        background: var(--black);
-        font-size: 0.74rem;
-        font-weight: 900;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-      }
-
-      h1,
-      h2,
-      h3,
-      p {
-        margin: 0;
-      }
-
-      h1,
-      h2 {
-        font-family: Georgia, "Times New Roman", serif;
-        font-weight: 500;
-        letter-spacing: 0;
-      }
-
-      h1 {
-        max-width: 9ch;
-        margin-top: 16px;
-        font-size: clamp(4.4rem, 17vw, 9.5rem);
-        line-height: 0.82;
-      }
-
-      .hero-copy p {
-        max-width: 46rem;
-        margin-top: 16px;
-        color: var(--muted);
-        font-size: 1.05rem;
-        line-height: 1.62;
-      }
-
-      .actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 22px;
-      }
-
-      .button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 48px;
-        border-radius: 999px;
-        padding: 12px 18px;
-        font-weight: 900;
-        text-align: center;
-      }
-
-      .button-dark {
-        color: white;
-        background: var(--black);
-        box-shadow: 0 12px 26px rgba(5, 5, 5, 0.24);
-      }
-
-      .button-light {
-        border: 1px solid var(--line);
-        background: white;
-      }
-
-      .quick-facts {
-        display: grid;
-        gap: 8px;
-        margin-top: 24px;
-      }
-
-      .quick-facts span {
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        padding: 11px 12px;
-        background: rgba(255, 255, 255, 0.7);
-        color: var(--muted);
-        font-size: 0.92rem;
-      }
-
-      .quick-facts strong {
-        display: block;
-        margin-bottom: 3px;
-        color: var(--black);
-      }
-
-      .hero-image {
-        min-height: 320px;
-        overflow: hidden;
-        border-radius: 22px;
-      }
-
-      .hero-image img {
-        filter: saturate(0.94) contrast(1.02);
-      }
-
-      .trio-wrap,
-      .final-wrap {
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        padding-top: 10px;
-      }
-
-      .trio,
-      .facts,
-      .booking {
-        width: 100%;
-        padding: clamp(16px, 4vw, 34px);
-      }
-
-      .section-heading {
-        display: grid;
-        gap: 8px;
-        margin-bottom: 14px;
-        text-align: center;
-      }
-
-      .section-heading h2 {
-        font-size: clamp(2.8rem, 10vw, 5.2rem);
-        line-height: 0.92;
-      }
-
-      .section-heading p {
-        max-width: 52rem;
-        margin: 0 auto;
-        color: var(--muted);
-        line-height: 1.55;
-      }
-
-      .team-grid {
-        display: grid;
-        gap: 10px;
-      }
-
-      .team-card {
-        display: grid;
-        gap: 12px;
-        border: 1px solid var(--line);
-        border-radius: 22px;
-        padding: 12px;
-        background: white;
-      }
-
-      .team-photo {
-        aspect-ratio: 1 / 0.72;
-        overflow: hidden;
-        border-radius: 18px;
-        background: var(--rose);
-      }
-
-      .team-card h3 {
-        font-size: 1.2rem;
-      }
-
-      .team-card p {
-        color: var(--muted);
-        line-height: 1.45;
-      }
-
-      .card-actions {
-        display: grid;
-        gap: 8px;
-        margin-top: auto;
-      }
-
-      .card-actions .button {
-        width: 100%;
-        min-height: 42px;
-        padding: 10px 14px;
-        font-size: 0.9rem;
-      }
-
-      .center-book {
-        display: grid;
-        place-items: center;
-        padding-top: 18px;
-      }
-
-      .center-book .button {
-        width: min(100%, 360px);
-      }
-
-      .bio-drawer {
-        display: grid;
-        gap: 16px;
-        align-items: center;
-        margin-top: 10px;
-        border: 1px solid var(--line);
-        border-radius: 22px;
-        padding: clamp(14px, 3vw, 24px);
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(245, 223, 221, 0.82));
-      }
-
-      .bio-drawer[hidden] {
-        display: none;
-      }
-
-      .bio-drawer-copy {
-        display: grid;
-        gap: 12px;
-      }
-
-      .bio-drawer-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-      }
-
-      .drawer-close {
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        padding: 8px 12px;
-        color: var(--black);
-        background: white;
-        font: inherit;
-        font-size: 0.84rem;
-        font-weight: 900;
-        cursor: pointer;
-      }
-
-      .role {
-        width: fit-content;
-        border-radius: 999px;
-        padding: 8px 12px;
-        color: white;
-        background: var(--black);
-        font-size: 0.76rem;
-        font-weight: 900;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      .bio-drawer-copy h2 {
-        font-size: clamp(2.4rem, 9vw, 5rem);
-        line-height: 0.9;
-      }
-
-      .bio-drawer-copy p {
-        max-width: 46rem;
-        color: var(--muted);
-        line-height: 1.65;
-      }
-
-      .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .chips span {
-        border-radius: 999px;
-        padding: 8px 10px;
-        color: var(--black);
-        background: rgba(255, 255, 255, 0.74);
-        font-size: 0.8rem;
-        font-weight: 850;
-      }
-
-      .portfolio {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-      }
-
-      .portfolio img {
-        min-height: 160px;
-        border: 1px solid var(--line);
-        border-radius: 20px;
-        background: white;
-      }
-
-      .portfolio img:first-child {
-        grid-column: 1 / -1;
-        min-height: 240px;
-      }
-
-      .facts {
-        margin-top: 10px;
-      }
-
-      .map-section {
-        display: grid;
-        gap: 14px;
-        margin-top: 10px;
-        overflow: hidden;
-        padding: clamp(16px, 4vw, 34px);
-      }
-
-      .map-copy {
-        display: grid;
-        align-content: center;
-        gap: 12px;
-      }
-
-      .map-copy h2 {
-        font-size: clamp(2.6rem, 9vw, 5.4rem);
-        line-height: 0.94;
-      }
-
-      .map-copy p {
-        max-width: 38rem;
-        color: var(--muted);
-        line-height: 1.6;
-      }
-
-      .map-frame {
-        min-height: 340px;
-        overflow: hidden;
-        border: 1px solid var(--line);
-        border-radius: 22px;
-        background: white;
-      }
-
-      .map-frame iframe {
-        display: block;
-        width: 100%;
-        height: 100%;
-        min-height: 340px;
-        border: 0;
-      }
-
-      .facts-grid {
-        display: grid;
-        gap: 10px;
-      }
-
-      .fact-card {
-        border: 1px solid var(--line);
-        border-radius: 20px;
-        padding: 16px;
-        background: rgba(255, 255, 255, 0.75);
-      }
-
-      .fact-card h3 {
-        margin-bottom: 10px;
-      }
-
-      .fact-card ul,
-      .fact-card dl {
-        display: grid;
-        gap: 8px;
-        margin: 0;
-        padding: 0;
-        color: var(--muted);
-      }
-
-      .fact-card ul {
-        list-style: none;
-      }
-
-      .fact-card dt {
-        font-weight: 900;
-        color: var(--black);
-      }
-
-      .fact-card dd {
-        margin: -6px 0 4px;
-      }
-
-      .fact-card a,
-      .quick-facts a {
-        font-weight: 850;
-        text-decoration: underline;
-        text-decoration-thickness: 1px;
-        text-underline-offset: 3px;
-      }
-
-      .booking {
-        display: grid;
-        place-items: center;
-        gap: 16px;
-        padding: clamp(28px, 7vw, 72px);
-        color: white;
-        text-align: center;
-        background: linear-gradient(135deg, var(--black), #33282d);
-      }
-
-      .booking h2 {
-        max-width: 10ch;
-        font-size: clamp(3rem, 12vw, 7rem);
-        line-height: 0.92;
-      }
-
-      .booking p {
-        max-width: 42rem;
-        color: rgba(255, 255, 255, 0.78);
-        line-height: 1.6;
-      }
-
-      .booking > .button {
-        width: min(100%, 360px);
-        color: var(--black);
-        background: white;
-      }
-
-      .booking-details {
-        display: grid;
-        gap: 10px;
-        width: 100%;
-        margin-top: 12px;
-        color: var(--ink);
-        text-align: left;
-      }
-
-      .booking .fact-card,
-      .booking .map-section {
-        background: rgba(255, 250, 245, 0.94);
-      }
-
-      .booking .map-copy p {
-        color: var(--muted);
-      }
-
-      footer {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 10px;
-        padding: 18px 4px 0;
-        color: var(--muted);
-        font-size: 0.9rem;
-      }
-
-      @media (min-width: 760px) {
-        .page {
-          padding: 18px;
-        }
-
-        .hero {
-          grid-template-columns: 0.95fr 1.05fr;
-        }
-
-        .quick-facts {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-
-        .team-grid {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-
-        .bio-drawer {
-          grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-        }
-
-        .map-section {
-          grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
-        }
-
-        .facts-grid {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-      }
+  --black: #050505;
+  --ink: #171114;
+  --muted: #6f6268;
+  --rose: #e7cfcd;
+  --blush: #f5dfdd;
+  --cream: #fffaf5;
+  --line: rgba(5, 5, 5, 0.13);
+  --shadow: 0 18px 48px rgba(5, 5, 5, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    linear-gradient(rgba(5, 5, 5, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(5, 5, 5, 0.035) 1px, transparent 1px),
+    radial-gradient(circle at 18% 6%, rgba(216, 184, 185, 0.58), transparent 25rem),
+    linear-gradient(135deg, #f8eeee 0%, var(--cream) 58%, #f1e1df 100%);
+  background-size: 32px 32px, 32px 32px, auto, auto;
+}
+
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid rgba(5, 5, 5, 0.75);
+  outline-offset: 4px;
+}
+
+.page {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.hero,
+.team-section,
+.booking-panel {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 250, 245, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  display: grid;
+  min-height: auto;
+  padding: clamp(22px, 8vw, 52px);
+}
+
+.hero-copy {
+  display: grid;
+  gap: 14px;
+}
+
+.eyebrow {
+  width: fit-content;
+  margin: 0;
+  border-radius: 999px;
+  padding: 7px 11px;
+  color: white;
+  background: var(--black);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+h1 {
+  max-width: 8ch;
+  color: transparent;
+  font-family: "Bodoni 72", "Bodoni MT", Didot, "Didot LT STD", "Hoefler Text", Georgia, serif;
+  font-size: clamp(4.25rem, 18vw, 8.8rem);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 0.82;
+  background: linear-gradient(120deg, var(--black) 0%, #1a1014 38%, #d783a0 68%, #f1c3cf 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.section-heading p,
+.booking-panel p,
+.team-card p,
+.modal-copy p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.hero p.hero-subtitle {
+  color: var(--black);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.15rem, 8.5vw, 4.3rem);
+  line-height: 0.96;
+}
+
+.hero-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 13px 18px;
+  font: inherit;
+  font-weight: 900;
+  text-align: center;
+  cursor: pointer;
+}
+
+.button-primary {
+  color: white;
+  background: var(--black);
+  box-shadow: 0 12px 26px rgba(5, 5, 5, 0.24);
+}
+
+.button-secondary {
+  color: var(--black);
+  border-color: var(--line);
+  background: white;
+}
+
+.team-section {
+  margin-top: 10px;
+  padding: clamp(16px, 5vw, 34px);
+}
+
+.section-heading {
+  display: grid;
+  gap: 9px;
+  margin-bottom: 16px;
+}
+
+.section-heading h2,
+.booking-panel h2 {
+  font-size: clamp(2.4rem, 10vw, 5.2rem);
+  line-height: 0.94;
+}
+
+.team-carousel {
+  margin: 0 -16px;
+  overflow: visible;
+}
+
+.team-grid {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 0 16px 12px;
+  scroll-padding: 16px;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(5, 5, 5, 0.28) transparent;
+}
+
+.team-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.team-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.team-grid::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(5, 5, 5, 0.24);
+}
+
+.team-card {
+  display: grid;
+  gap: 12px;
+  flex: 0 0 min(82%, 330px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 12px;
+  background: white;
+  scroll-snap-align: center;
+}
+
+.team-photo {
+  aspect-ratio: 1.28 / 1;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--rose);
+}
+
+.team-card-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.team-card h3 {
+  font-size: 1.25rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chips li {
+  border-radius: 999px;
+  padding: 8px 10px;
+  color: var(--black);
+  background: var(--blush);
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 12px;
+}
+
+.carousel-dot {
+  width: 28px;
+  height: 8px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(5, 5, 5, 0.2);
+  cursor: pointer;
+}
+
+.carousel-dot.is-active {
+  width: 42px;
+  background: var(--black);
+}
+
+.booking-panel {
+  display: grid;
+  gap: 14px;
+  margin-top: 10px;
+  padding: clamp(24px, 8vw, 68px);
+  color: white;
+  background: linear-gradient(135deg, var(--black), #33282d);
+}
+
+.booking-panel .eyebrow,
+.booking-panel .button {
+  background: white;
+  color: var(--black);
+}
+
+.booking-panel p {
+  max-width: 38rem;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 18px 4px 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.team-modal {
+  inset: auto 0 0 0;
+  width: 100vw;
+  max-width: none;
+  max-height: min(76vh, 620px);
+  margin: 0;
+  border: 0;
+  border-radius: 26px 26px 0 0;
+  padding: 0;
+  color: var(--ink);
+  background: transparent;
+}
+
+.team-modal::backdrop {
+  background: rgba(5, 5, 5, 0.46);
+}
+
+.modal-shell {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  max-height: min(76vh, 620px);
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 26px 26px 0 0;
+  padding: 18px;
+  background: var(--cream);
+  box-shadow: 0 -22px 60px rgba(5, 5, 5, 0.22);
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 1;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--black);
+  background: white;
+  font: inherit;
+  font-size: 1.3rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.modal-image {
+  height: clamp(150px, 28vh, 230px);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  margin-bottom: 6px;
+  background: var(--rose);
+}
+
+.modal-copy {
+  display: grid;
+  gap: 12px;
+}
+
+.modal-name {
+  font-size: clamp(2rem, 7.4vw, 3.4rem);
+  line-height: 1.06;
+}
+
+.modal-heading {
+  color: var(--black);
+  font-weight: 900;
+}
+
+.modal-cta {
+  margin-top: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .team-card,
+  .button,
+  .team-modal {
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .team-card:has(.button:focus-visible),
+  .team-card:has(.button:hover) {
+    transform: translateY(-2px);
+  }
+}
+
+@media (min-width: 560px) {
+  .hero-actions {
+    grid-template-columns: minmax(0, max-content);
+  }
+
+  .hero-actions .button {
+    width: auto;
+  }
+}
+
+@media (min-width: 760px) {
+  .page {
+    padding: 18px;
+  }
+
+  .hero {
+    min-height: 430px;
+    align-items: center;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: visible;
+    padding: 0;
+    scroll-snap-type: none;
+  }
+
+  .team-carousel {
+    margin: 0;
+    overflow: visible;
+  }
+
+  .carousel-dots {
+    display: none;
+  }
+
+  .team-card {
+    flex: initial;
+    grid-template-rows: auto 1fr auto;
+    scroll-snap-align: none;
+  }
+
+  .booking-panel {
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .booking-panel .button {
+    width: min(100%, 360px);
+  }
+
+  .team-modal {
+    inset: 0;
+    width: min(calc(100vw - 36px), 720px);
+    max-width: 720px;
+    margin: auto;
+    border-radius: 24px;
+  }
+
+  .modal-shell {
+    max-height: min(82vh, 760px);
+    border-bottom: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 24px;
+  }
+}

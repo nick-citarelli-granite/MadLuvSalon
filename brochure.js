@@ -1,81 +1,213 @@
-class SalonBrochureApp {
-  constructor(config) {
-    this.config = this.#validateConfig(config);
-    this.root = this.#requiredElement(document, "[data-salon-app]");
-    this.phoneLinks = this.#requiredElements(this.root, "[data-phone-link]");
-    this.emailLinks = this.#requiredElements(this.root, "[data-email-link]");
-    this.mapLinks = this.#requiredElements(this.root, "[data-map-link]");
-    this.bioTriggers = this.#requiredElements(this.root, "[data-bio-trigger]");
-    this.bioDrawer = this.#requiredElement(this.root, "[data-bio-drawer]");
-    this.bioName = this.#requiredElement(this.bioDrawer, "[data-bio-name]");
-    this.bioHeading = this.#requiredElement(this.bioDrawer, "[data-bio-heading]");
-    this.bioDescription = this.#requiredElement(this.bioDrawer, "[data-bio-description]");
-    this.bioChips = this.#requiredElement(this.bioDrawer, "[data-bio-chips]");
-    this.bioPortfolio = this.#requiredElement(this.bioDrawer, "[data-bio-portfolio]");
-    this.bioBooking = this.#requiredElement(this.bioDrawer, "[data-bio-booking]");
-    this.bioClose = this.#requiredElement(this.bioDrawer, "[data-bio-close]");
-    this.bookingLinks = this.#requiredElements(this.root, "a[href*='glossgenius.com/booking-flow']");
+class SalonLandingApp {
+  constructor(root) {
+    this.root = this.#requiredElement(root, "[data-salon-app]");
+    this.bookingHref = this.#requiredDataset(this.root, "bookingHref");
+    this.cards = this.#requiredElements(this.root, "[data-professional-card]");
+    this.modal = this.#requiredElement(this.root, "[data-team-modal]");
+    this.modalName = this.#requiredElement(this.modal, "[data-modal-name]");
+    this.modalImage = this.#requiredElement(this.modal, "[data-modal-image]");
+    this.modalHeading = this.#requiredElement(this.modal, "[data-modal-heading]");
+    this.modalDescription = this.#requiredElement(this.modal, "[data-modal-description]");
+    this.modalChips = this.#requiredElement(this.modal, "[data-modal-chips]");
+    this.modalBooking = this.#requiredElement(this.modal, "[data-modal-booking]");
+    this.modalClose = this.#requiredElement(this.modal, "[data-modal-close]");
+    this.track = this.#requiredElement(this.root, "[data-team-track]");
+    this.dotsContainer = this.#requiredElement(this.root, "[data-carousel-dots]");
+    this.professionals = this.#collectProfessionals();
+    this.dots = [];
+    this.lastTrigger = null;
   }
 
   init() {
-    this.#applyContactLinks();
-    this.#applyExternalLinkPolicy();
-    this.#bindBioDrawer();
+    this.#enforceExternalLinks();
+    this.#bindModalTriggers();
+    this.#bindModalClose();
+    this.#renderCarouselDots();
+    this.#bindCarouselDots();
+    this.#syncCarouselDots();
     document.documentElement.dataset.js = "ready";
   }
 
-  #validateConfig(config) {
-    if (!config || typeof config !== "object") {
-      throw new Error("SalonBrochureApp requires a config object.");
-    }
+  #collectProfessionals() {
+    const professionals = new Map();
 
-    const required = ["phoneHref", "phoneLabel", "contactHref", "mapHref", "bookingHref"];
-    for (const key of required) {
-      if (typeof config[key] !== "string" || config[key].trim() === "") {
-        throw new Error(`SalonBrochureApp missing config.${key}.`);
+    for (const card of this.cards) {
+      const id = this.#requiredDataset(card, "professionalCard");
+      const name = this.#requiredText(card, "h3");
+      const heading = this.#requiredDataset(card, "modalHeading");
+      const description = this.#modalDescriptionFor(name, this.#requiredText(card, ".team-card-copy p"));
+      const image = this.#requiredElement(card, ".team-photo img");
+      const chips = this.#requiredElements(card, ".chips li").map((chip) => chip.textContent.trim());
+      const trigger = this.#requiredElement(card, "[data-modal-trigger]");
+
+      if (trigger.dataset.modalTrigger !== id) {
+        throw new Error(`Card ${id} trigger does not match professional id.`);
       }
+
+      professionals.set(id, {
+        id,
+        name,
+        heading,
+        description,
+        imageAlt: image.alt || name,
+        imageSrc: image.currentSrc || image.src,
+        chips,
+        trigger,
+      });
     }
 
-    if (!config.phoneHref.startsWith("tel:")) {
-      throw new Error("SalonBrochureApp config.phoneHref must be a tel: URL.");
-    }
-
-    if (!config.professionals || typeof config.professionals !== "object") {
-      throw new Error("SalonBrochureApp requires config.professionals.");
-    }
-
-    for (const [id, professional] of Object.entries(config.professionals)) {
-      this.#validateProfessional(id, professional);
-    }
-
-    return Object.freeze({ ...config });
+    return professionals;
   }
 
-  #validateProfessional(id, professional) {
-    if (!professional || typeof professional !== "object") {
-      throw new Error(`Professional ${id} must be an object.`);
+  #enforceExternalLinks() {
+    for (const link of this.root.querySelectorAll("a[href^='http']")) {
+      link.target = "_blank";
+      link.rel = "noopener";
     }
 
-    const requiredTextFields = ["firstName", "name", "heading", "description"];
-    for (const key of requiredTextFields) {
-      if (typeof professional[key] !== "string" || professional[key].trim() === "") {
-        throw new Error(`Professional ${id} missing ${key}.`);
+    for (const link of this.root.querySelectorAll("a[href*='glossgenius.com/booking-flow']")) {
+      if (link.href !== this.bookingHref) {
+        throw new Error(`Unexpected booking link target: ${link.href}`);
       }
     }
+  }
 
-    if (!Array.isArray(professional.chips) || professional.chips.length === 0) {
-      throw new Error(`Professional ${id} requires chips.`);
+  #bindModalTriggers() {
+    for (const professional of this.professionals.values()) {
+      professional.trigger.addEventListener("click", () => {
+        this.lastTrigger = professional.trigger;
+        this.#openModal(professional);
+      });
     }
+  }
 
-    if (!Array.isArray(professional.portfolio) || professional.portfolio.length === 0) {
-      throw new Error(`Professional ${id} requires portfolio images.`);
-    }
+  #bindModalClose() {
+    this.modalClose.addEventListener("click", () => this.#closeModal());
 
-    for (const image of professional.portfolio) {
-      if (!image.src || !image.alt) {
-        throw new Error(`Professional ${id} has an incomplete portfolio image.`);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && this.modal.open) {
+        this.#closeModal();
       }
+    });
+
+    this.modal.addEventListener("click", (event) => {
+      if (event.target === this.modal) {
+        this.#closeModal();
+      }
+    });
+
+    this.modal.addEventListener("close", () => this.lastTrigger?.focus());
+  }
+
+  #openModal(professional) {
+    this.modalName.textContent = professional.name;
+    this.modalImage.src = professional.imageSrc;
+    this.modalImage.alt = professional.imageAlt;
+    this.modalHeading.textContent = professional.heading;
+    this.modalDescription.textContent = professional.description;
+    this.modalBooking.href = this.bookingHref;
+    this.#renderChips(professional.chips);
+
+    if (typeof this.modal.showModal === "function") {
+      this.modal.showModal();
+    } else {
+      this.modal.setAttribute("open", "");
     }
+
+    this.modalClose.focus();
+  }
+
+  #closeModal() {
+    if (typeof this.modal.close === "function") {
+      this.modal.close();
+    } else {
+      this.modal.removeAttribute("open");
+      this.lastTrigger?.focus();
+    }
+  }
+
+  #renderChips(chips) {
+    this.modalChips.replaceChildren(
+      ...chips.map((chip) => {
+        const item = document.createElement("li");
+        item.textContent = chip;
+        return item;
+      })
+    );
+  }
+
+  #renderCarouselDots() {
+    this.dotsContainer.replaceChildren(
+      ...this.cards.map((card, index) => {
+        const dot = document.createElement("button");
+        dot.className = "carousel-dot";
+        dot.type = "button";
+        dot.dataset.carouselDot = String(index);
+        dot.setAttribute("aria-label", `Show ${this.#requiredText(card, "h3")}`);
+        return dot;
+      })
+    );
+    this.dots = Array.from(this.dotsContainer.querySelectorAll("[data-carousel-dot]"));
+  }
+
+  #bindCarouselDots() {
+    this.track.addEventListener("scroll", () => this.#syncCarouselDots(), { passive: true });
+
+    this.dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        const card = this.cards[index];
+        if (!card) {
+          throw new Error(`Carousel dot references missing card: ${index}`);
+        }
+        card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      });
+    });
+  }
+
+  #syncCarouselDots() {
+    if (this.cards.length !== this.dots.length) {
+      throw new Error("Carousel dot count must match professional card count.");
+    }
+
+    const trackRect = this.track.getBoundingClientRect();
+    const trackCenter = trackRect.left + trackRect.width / 2;
+    const activeIndex = this.cards.reduce((closestIndex, card, index) => {
+      const currentDistance = this.#distanceFromTrackCenter(card, trackCenter);
+      const closestDistance = this.#distanceFromTrackCenter(this.cards[closestIndex], trackCenter);
+      return currentDistance < closestDistance ? index : closestIndex;
+    }, 0);
+
+    this.dots.forEach((dot, index) => {
+      dot.classList.toggle("is-active", index === activeIndex);
+      dot.setAttribute("aria-current", index === activeIndex ? "true" : "false");
+    });
+  }
+
+  #distanceFromTrackCenter(card, trackCenter) {
+    const rect = card.getBoundingClientRect();
+    return Math.abs(rect.left + rect.width / 2 - trackCenter);
+  }
+
+  #modalDescriptionFor(name, cardDescription) {
+    const firstName = name.split(" ")[0];
+    const serviceFocus = cardDescription.replace(/^Best fit for\s+/i, "").replace(/\.$/, "");
+    return `${firstName} may be a good fit for ${serviceFocus}. Continue to GlossGenius to choose services, view availability, and complete booking.`;
+  }
+
+  #requiredDataset(element, key) {
+    const value = element.dataset[key];
+    if (typeof value !== "string" || value.trim() === "") {
+      throw new Error(`Required data-${key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)} missing.`);
+    }
+    return value;
+  }
+
+  #requiredText(scope, selector) {
+    const text = this.#requiredElement(scope, selector).textContent.trim();
+    if (!text) {
+      throw new Error(`Required text missing: ${selector}`);
+    }
+    return text;
   }
 
   #requiredElement(scope, selector) {
@@ -93,166 +225,6 @@ class SalonBrochureApp {
     }
     return elements;
   }
-
-  #applyContactLinks() {
-    for (const link of this.phoneLinks) {
-      link.href = this.config.phoneHref;
-      if (!link.textContent.trim()) {
-        link.textContent = this.config.phoneLabel;
-      }
-      link.setAttribute("aria-label", `Call Madd Luv Salon at ${this.config.phoneLabel}`);
-    }
-
-    for (const link of this.emailLinks) {
-      link.href = this.config.contactHref;
-      link.setAttribute("aria-label", "Email Madd Luv Salon through the GlossGenius contact form");
-    }
-
-    for (const link of this.mapLinks) {
-      link.href = this.config.mapHref;
-    }
-  }
-
-  #applyExternalLinkPolicy() {
-    const externalLinks = this.root.querySelectorAll("a[href^='http']");
-    for (const link of externalLinks) {
-      link.target = "_blank";
-      link.rel = "noopener";
-    }
-
-    for (const link of this.bookingLinks) {
-      if (link.href !== this.config.bookingHref) {
-        throw new Error(`Unexpected booking link target: ${link.href}`);
-      }
-    }
-  }
-
-  #bindBioDrawer() {
-    for (const link of this.bioTriggers) {
-      const professionalId = link.dataset.bioTrigger;
-      if (!this.config.professionals[professionalId]) {
-        throw new Error(`Bio trigger references unknown professional: ${professionalId}`);
-      }
-
-      link.addEventListener("click", (event) => {
-        event.preventDefault();
-        this.#openBioDrawer(professionalId);
-      });
-    }
-
-    this.bioClose.addEventListener("click", () => this.#closeBioDrawer());
-  }
-
-  #openBioDrawer(professionalId) {
-    const professional = this.config.professionals[professionalId];
-    if (!professional) {
-      throw new Error(`Cannot open missing professional: ${professionalId}`);
-    }
-
-    this.bioName.textContent = professional.name;
-    this.bioHeading.textContent = professional.heading;
-    this.bioDescription.textContent = professional.description;
-    this.bioBooking.textContent = `Book with ${professional.firstName}`;
-    this.bioBooking.href = this.config.bookingHref;
-    this.#renderList(this.bioChips, professional.chips, (chip) => {
-      const span = document.createElement("span");
-      span.textContent = chip;
-      return span;
-    });
-    this.#renderList(this.bioPortfolio, professional.portfolio, (image) => {
-      const img = document.createElement("img");
-      img.src = image.src;
-      img.alt = image.alt;
-      return img;
-    });
-
-    this.bioDrawer.hidden = false;
-    this.bioDrawer.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }
-
-  #closeBioDrawer() {
-    this.bioDrawer.hidden = true;
-  }
-
-  #renderList(container, items, renderItem) {
-    container.replaceChildren(...items.map(renderItem));
-  }
 }
 
-const salonBrochureConfig = Object.freeze({
-  phoneHref: "tel:+19784940203",
-  phoneLabel: "(978) 494-0203",
-  contactHref: "https://maddluvsalon.glossgenius.com/contact",
-  mapHref: "https://www.google.com/maps/search/?api=1&query=282A%20Main%20Street%2C%20Salem%2C%20NH%2003079",
-  bookingHref: "https://maddluvsalon.glossgenius.com/booking-flow",
-  professionals: {
-    madison: {
-      firstName: "Madison",
-      name: "Madison Wesinger",
-      heading: "Color, bridal & beauty",
-      description:
-        "Madison is listed publicly on the Madd Luv Salon team and is connected to hair, extensions, color, makeup, waxing, bridal, and lash services. Popular services include Full Foil, Partial Foil, Cut And Blowdry, Makeup, Updo, Blowout, Men's Cut, Full Balayage, and Hair Extension Consultation.",
-      chips: ["Full Foil $140+ / 165 min", "Partial Foil $95+ / 120 min", "Cut And Blowdry $50+ / 60 min", "Makeup $80+ / 60 min"],
-      portfolio: [
-        {
-          src: "https://static.glossgenius.com/public/service/97c98fa204c8c5a73392c12ce54be4f772f23f20/image/dbc2b5e16a90e848dbfafd3a6a5f7ad3.jpg",
-          alt: "Full Foil service at Madd Luv Salon",
-        },
-        {
-          src: "https://static.glossgenius.com/public/service/8203919a9157cec25c8cbe95ccc59a04a1ab2a89/image/2cef0c0770e76a1d2432ac7236124f8b.jpg",
-          alt: "Partial Foil service at Madd Luv Salon",
-        },
-        {
-          src: "https://static.glossgenius.com/public/service/f981cd99a9aff3cffe75c201710bd5eb5b24f5b3/image/31536f28af6fb9c3e40515d128b9fdf1.jpg",
-          alt: "Bridal or styling service at Madd Luv Salon",
-        },
-      ],
-    },
-    mikaela: {
-      firstName: "Mikaela",
-      name: "Mikaela Wesinger",
-      heading: "Lashes, brows & nails",
-      description:
-        "Mikaela is listed publicly on the Madd Luv Salon team and is connected to beauty services including lash extensions, lash lift and tint, brow wax and tint, makeup, waxing, and nail services.",
-      chips: ["Lash Lift And Tint", "Full Set Lash Extensions", "Brow Wax And Tint", "Builder Gel Manicure"],
-      portfolio: [
-        {
-          src: "https://static.glossgenius.com/public/stockimage/2/image/eyelashes.jpg",
-          alt: "Lash service image from GlossGenius",
-        },
-        {
-          src: "https://static.glossgenius.com/public/service/6513dbda8109d00a51a6d74096be0cb7ab3bf612/image/2fd06e3d62a7debf99a1fc510ac68904.jpg",
-          alt: "Brow or lash service at Madd Luv Salon",
-        },
-        {
-          src: "https://static.glossgenius.com/public/service/d24b604e06e2d2e4e52668fe772a22ca3a6d9ef7/image/8127d62b06bf436a2130bcb4d184248a.jpg",
-          alt: "Makeup service at Madd Luv Salon",
-        },
-      ],
-    },
-    keira: {
-      firstName: "Keira",
-      name: "Keira Garcia",
-      heading: "Nails & styling detail",
-      description:
-        "Keira is listed publicly on the Madd Luv Salon team and is connected to nail services including gel polish manicure, builder gel manicure, builder gel fill, Gel-X, design work, nail fixes, and nail removal.",
-      chips: ["Gel Polish Manicure $35+", "Builder Gel Manicure $45", "Builder Gel Fill $40", "Gel-X $60"],
-      portfolio: [
-        {
-          src: "https://static.glossgenius.com/public/service/5cf330af9236f87ce8c8bcfedc5fbe0867a43ca9/image/262e5916e6a22c4829964ab713e4a2ac.jpg",
-          alt: "Gel polish manicure at Madd Luv Salon",
-        },
-        {
-          src: "https://static.glossgenius.com/public/service/c8d221d7ab674b2e6d6a49c4dec5cd5c40e47065/image/dd31c462fdc0133bd32a8b9d6503207a.jpg",
-          alt: "Builder Gel Manicure at Madd Luv Salon",
-        },
-        {
-          src: "https://static.glossgenius.com/public/service/8b337764309f63a06fc213ad7890e1c14e2ffd08/image/dc31f678edb811e16976d22cec0c7cd2.jpg",
-          alt: "Gel-X nail service at Madd Luv Salon",
-        },
-      ],
-    },
-  },
-});
-
-new SalonBrochureApp(salonBrochureConfig).init();
+new SalonLandingApp(document).init();

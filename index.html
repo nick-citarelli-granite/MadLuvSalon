@@ -3,17 +3,198 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="refresh" content="0; url=MaddLuvSalon-Brochure.html" />
-    <meta name="description" content="Madd Luv Salon & Beauty Lounge team, services, and booking." />
+    <!-- TODO: Add the final production canonical URL when deployment is confirmed. -->
+    <!-- TODO: Add the final client-approved social preview image when assets are available. -->
+    <meta
+      name="description"
+      content="Choose a Madd Luv Salon & Beauty Lounge professional, review service focus, and continue to GlossGenius to book."
+    />
+    <meta property="og:title" content="Madd Luv Salon & Beauty Lounge" />
+    <meta
+      property="og:description"
+      content="Review the Madd Luv Salon team and continue to GlossGenius to book."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Madd Luv Salon & Beauty Lounge" />
+    <meta
+      name="twitter:description"
+      content="Review the Madd Luv Salon team and continue to GlossGenius to book."
+    />
     <title>Madd Luv Salon & Beauty Lounge</title>
+    <link rel="stylesheet" href="brochure.css" />
+    <script src="brochure.js" defer></script>
   </head>
   <body>
-    <main>
-      <h1>Madd Luv Salon & Beauty Lounge</h1>
-      <p>
-        Continue to
-        <a href="MaddLuvSalon-Brochure.html">Madd Luv Salon & Beauty Lounge</a>.
-      </p>
-    </main>
+    <div class="page" data-salon-app data-booking-href="https://maddluvsalon.glossgenius.com/booking-flow">
+      <header class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <h1 id="hero-title">Madd Luv</h1>
+          <p class="hero-subtitle">Salon & Beauty Lounge</p>
+          <div class="hero-actions">
+            <a
+              class="button button-primary"
+              href="https://maddluvsalon.glossgenius.com/booking-flow"
+              target="_blank"
+              rel="noopener"
+            >
+              Book on GlossGenius
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="team-section" id="team" aria-labelledby="team-title">
+          <div class="section-heading">
+            <h2 id="team-title">Book by team member</h2>
+            <p>
+              Tap a professional to review their general service focus before
+              leaving for GlossGenius.
+            </p>
+          </div>
+
+          <div class="team-carousel" data-team-carousel>
+            <div class="team-grid" data-team-track>
+            <article
+              class="team-card"
+              data-professional-card="madison"
+              data-modal-heading="Hair, color & beauty"
+            >
+              <div class="team-photo">
+                <!-- TODO: Temporary image. Replace with client-provided professional imagery. -->
+                <img
+                  src="https://static.glossgenius.com/public/user/83f9f4dd763349ab53e0fb3dd7cdd2c14eb4cf82/avatar/medium-29bcc9d4874a7c942685352f6eca50b8.jpeg"
+                  alt="Madison Wesinger"
+                />
+              </div>
+              <div class="team-card-copy">
+                <h3>Madison Wesinger</h3>
+                <p>Best fit for hair color, extensions, bridal looks, makeup, waxing, and lash services.</p>
+                <ul class="chips" aria-label="Madison service focus">
+                  <li>Hair color</li>
+                  <li>Extensions</li>
+                  <li>Bridal looks</li>
+                  <li>Makeup</li>
+                  <li>Waxing</li>
+                  <li>Lashes</li>
+                </ul>
+              </div>
+              <button class="button button-secondary" type="button" data-modal-trigger="madison">
+                View services
+              </button>
+            </article>
+
+            <article
+              class="team-card"
+              data-professional-card="mikaela"
+              data-modal-heading="Lashes, brows & beauty"
+            >
+              <div class="team-photo">
+                <!-- TODO: Temporary image. Replace with client-provided professional imagery. -->
+                <img
+                  src="https://static.glossgenius.com/public/user/c97aab8a26600b79ce95ca495bef58c185da5dae/avatar/medium-7baa5c880201a1e25ddea97063087e5b.jpeg"
+                  alt="Mikaela Wesinger"
+                />
+              </div>
+              <div class="team-card-copy">
+                <h3>Mikaela Wesinger</h3>
+                <p>Best fit for lash extensions, lash lift and tint, brow services, makeup, waxing, and nails.</p>
+                <ul class="chips" aria-label="Mikaela service focus">
+                  <li>Lash extensions</li>
+                  <li>Lash lift</li>
+                  <li>Brows</li>
+                  <li>Makeup</li>
+                  <li>Waxing</li>
+                  <li>Nails</li>
+                </ul>
+              </div>
+              <button class="button button-secondary" type="button" data-modal-trigger="mikaela">
+                View services
+              </button>
+            </article>
+
+            <article
+              class="team-card"
+              data-professional-card="keira"
+              data-modal-heading="Nails & detail work"
+            >
+              <div class="team-photo">
+                <!-- TODO: Temporary image. Replace with client-provided professional imagery. -->
+                <img
+                  src="https://static.glossgenius.com/public/service/5cf330af9236f87ce8c8bcfedc5fbe0867a43ca9/image/262e5916e6a22c4829964ab713e4a2ac.jpg"
+                  alt="Nail service example for Keira Garcia"
+                />
+              </div>
+              <div class="team-card-copy">
+                <h3>Keira Garcia</h3>
+                <p>Best fit for gel polish, builder gel, Gel-X, nail art, nail fixes, and nail removal.</p>
+                <ul class="chips" aria-label="Keira service focus">
+                  <li>Gel polish</li>
+                  <li>Builder gel</li>
+                  <li>Gel-X</li>
+                  <li>Nail art</li>
+                  <li>Nail fixes</li>
+                  <li>Removal</li>
+                </ul>
+              </div>
+              <button class="button button-secondary" type="button" data-modal-trigger="keira">
+                View services
+              </button>
+            </article>
+            </div>
+          </div>
+
+          <div class="carousel-dots" data-carousel-dots aria-label="Professional carousel position"></div>
+        </section>
+
+        <section class="booking-panel" aria-labelledby="booking-title">
+          <p class="eyebrow">Ready to book?</p>
+          <h2 id="booking-title">Continue to booking</h2>
+          <p>
+            GlossGenius handles service selection, live availability, and booking completion.
+          </p>
+          <a
+            class="button button-primary"
+            href="https://maddluvsalon.glossgenius.com/booking-flow"
+            target="_blank"
+            rel="noopener"
+          >
+            Book on GlossGenius
+          </a>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>Madd Luv Salon & Beauty Lounge</span>
+        <span>Booking powered by GlossGenius</span>
+      </footer>
+
+      <dialog class="team-modal" data-team-modal aria-labelledby="modal-title">
+        <div class="modal-shell">
+          <button class="modal-close" type="button" data-modal-close aria-label="Close services modal">
+            <span aria-hidden="true">x</span>
+          </button>
+          <div class="modal-image">
+            <img src="" alt="" data-modal-image />
+          </div>
+          <div class="modal-copy">
+            <h2 class="modal-name" id="modal-title" data-modal-name></h2>
+            <p class="modal-heading" data-modal-heading></p>
+            <p data-modal-description></p>
+            <ul class="chips" data-modal-chips aria-label="Service focus"></ul>
+          </div>
+          <a
+            class="button button-primary modal-cta"
+            href="https://maddluvsalon.glossgenius.com/booking-flow"
+            target="_blank"
+            rel="noopener"
+            data-modal-booking
+          >
+            Continue to GlossGenius
+          </a>
+        </div>
+      </dialog>
+    </div>
   </body>
 </html>
