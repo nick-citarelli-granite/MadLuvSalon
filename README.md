@@ -15,7 +15,9 @@ https://maddluvsalon.glossgenius.com/booking-flow
 ## Files
 
 - `index.html` redirects to the brochure page for simple hosting.
-- `MaddLuvSalon-Brochure.html` contains the mobile-first brochure site.
+- `MaddLuvSalon-Brochure.html` contains the mobile-first brochure structure.
+- `brochure.css` contains the brochure layout and responsive styling.
+- `brochure.js` validates required page data, wires contact actions, and handles bio navigation.
 
 ## Notes
 
