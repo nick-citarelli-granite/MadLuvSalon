@@ -9,7 +9,7 @@ Open or drag `MaddLuvSalon-Brochure.html` into a browser.
 No install step is required. The page is standalone HTML/CSS and links booking buttons to GlossGenius:
 
 ```text
-https://maddluvsalon.glossgenius.com/book
+https://maddluvsalon.glossgenius.com/booking-flow
 ```
 
 ## Files
