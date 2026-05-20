@@ -54,7 +54,6 @@
 
       .hero,
       .trio,
-      .pro-section,
       .facts,
       .map-section,
       .booking {
@@ -268,18 +267,43 @@
         width: min(100%, 360px);
       }
 
-      .pro-section {
-        min-height: 100vh;
+      .bio-drawer {
         display: grid;
         gap: 16px;
         align-items: center;
         margin-top: 10px;
-        padding: clamp(16px, 4vw, 34px);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: clamp(14px, 3vw, 24px);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(245, 223, 221, 0.82));
       }
 
-      .pro-copy {
+      .bio-drawer[hidden] {
+        display: none;
+      }
+
+      .bio-drawer-copy {
         display: grid;
         gap: 12px;
+      }
+
+      .bio-drawer-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .drawer-close {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 8px 12px;
+        color: var(--black);
+        background: white;
+        font: inherit;
+        font-size: 0.84rem;
+        font-weight: 900;
+        cursor: pointer;
       }
 
       .role {
@@ -294,12 +318,12 @@
         text-transform: uppercase;
       }
 
-      .pro-copy h2 {
-        font-size: clamp(3.2rem, 13vw, 6.5rem);
+      .bio-drawer-copy h2 {
+        font-size: clamp(2.4rem, 9vw, 5rem);
         line-height: 0.9;
       }
 
-      .pro-copy p {
+      .bio-drawer-copy p {
         max-width: 46rem;
         color: var(--muted);
         line-height: 1.65;
@@ -451,10 +475,28 @@
         line-height: 1.6;
       }
 
-      .booking .button {
+      .booking > .button {
         width: min(100%, 360px);
         color: var(--black);
         background: white;
+      }
+
+      .booking-details {
+        display: grid;
+        gap: 10px;
+        width: 100%;
+        margin-top: 12px;
+        color: var(--ink);
+        text-align: left;
+      }
+
+      .booking .fact-card,
+      .booking .map-section {
+        background: rgba(255, 250, 245, 0.94);
+      }
+
+      .booking .map-copy p {
+        color: var(--muted);
       }
 
       footer {
@@ -484,16 +526,12 @@
           grid-template-columns: repeat(3, minmax(0, 1fr));
         }
 
-        .pro-section {
+        .bio-drawer {
           grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
         }
 
         .map-section {
           grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
-        }
-
-        .pro-section:nth-of-type(odd) .pro-copy {
-          order: 2;
         }
 
         .facts-grid {
